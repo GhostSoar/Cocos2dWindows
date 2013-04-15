@@ -14,7 +14,7 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
-    <DrawingSurfaceBackgroundGrid x:Name="DrawingSurfaceBackground" Loaded="DrawingSurfaceBackground_Loaded">
-    </DrawingSurfaceBackgroundGrid>
+    <DrawingSurface x:Name="DrawingSurface" Loaded="DrawingSurface_Loaded">
+    </DrawingSurface>
 
 </phone:PhoneApplicationPage>

@@ -24,7 +24,7 @@ namespace PhoneDirect3DXamlAppInterop
             InitializeComponent();
         }
 
-        private void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
+        private void DrawingSurface_Loaded(object sender, RoutedEventArgs e)
         {
             // Set window bounds in dips
             m_d3dBackground.WindowBounds = new Windows.Foundation.Size(
@@ -42,8 +42,8 @@ namespace PhoneDirect3DXamlAppInterop
             m_d3dBackground.RenderResolution = m_d3dBackground.NativeResolution;
 
             // Hook-up native component to DrawingSurfaceBackgroundGrid
-            DrawingSurfaceBackground.SetBackgroundContentProvider(m_d3dBackground.CreateContentProvider());
-            DrawingSurfaceBackground.SetBackgroundManipulationHandler(m_d3dBackground);
+            DrawingSurface.SetContentProvider(m_d3dBackground.CreateContentProvider());
+            DrawingSurface.SetManipulationHandler(m_d3dBackground);
         }
     }
 }

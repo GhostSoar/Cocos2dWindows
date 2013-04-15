@@ -1,6 +1,9 @@
 ﻿#include "pch.h"
 #include "HelloXAMLComponent.h"
 #include "Direct3DContentProvider.h"
+#include "cocos2d.h"
+#include "CCEGLView.h"
+#include "classes\AppDelegate.h"
 
 using namespace Windows::Foundation;
 using namespace Windows::UI::Core;
@@ -11,15 +14,16 @@ using namespace Windows::Phone::Input::Interop;
 namespace PhoneDirect3DXamlAppComponent
 {
 
+AppDelegate app;	
 Direct3DBackground::Direct3DBackground() :
 	m_timer(ref new BasicTimer())
 {
 }
 
-IDrawingSurfaceBackgroundContentProvider^ Direct3DBackground::CreateContentProvider()
+IDrawingSurfaceContentProvider^ Direct3DBackground::CreateContentProvider()
 {
 	ComPtr<Direct3DContentProvider> provider = Make<Direct3DContentProvider>(this);
-	return reinterpret_cast<IDrawingSurfaceBackgroundContentProvider^>(provider.Detach());
+	return reinterpret_cast<IDrawingSurfaceContentProvider^>(provider.Detach());
 }
 
 // IDrawingSurfaceManipulationHandler
@@ -52,16 +56,37 @@ void Direct3DBackground::OnPointerReleased(DrawingSurfaceManipulationHost^ sende
 }
 
 // 与 Direct3DContentProvider 交互
-HRESULT Direct3DBackground::Connect(_In_ IDrawingSurfaceRuntimeHostNative* host, _In_ ID3D11Device1* device)
+HRESULT Direct3DBackground::Connect(_In_ IDrawingSurfaceRuntimeHostNative* host)
 {
 	m_renderer = ref new cocos2d::DirectXRender();
-	m_renderer->Initialize(device);
-	//m_renderer->UpdateForWindowSizeChange(WindowBounds.Width, WindowBounds.Height);
+	m_renderer->Initialize();
+	m_renderer->UpdateForWindowSizeChange(WindowBounds.Width, WindowBounds.Height);
+	m_renderer->UpdateForRenderResolutionChange(m_renderResolution.Width, m_renderResolution.Height);
 
+		cocos2d::CCEGLView* mainView = cocos2d::CCEGLView::sharedOpenGLView();
+		mainView->setDesignResolution(480, 320);
+
+		cocos2d::CCApplication::sharedApplication()->initInstance();
+		cocos2d::CCApplication::sharedApplication()->applicationDidFinishLaunching();
 	// 在呈现器完成初始化后重新启动计时器。
 	m_timer->Reset();
 
 	return S_OK;
+}
+
+void Direct3DBackground::RenderResolution::set(Windows::Foundation::Size renderResolution)
+{
+	if (renderResolution.Width  != m_renderResolution.Width ||
+		renderResolution.Height != m_renderResolution.Height)
+	{
+		m_renderResolution = renderResolution;
+
+		if (m_renderer)
+		{
+			m_renderer->UpdateForRenderResolutionChange(m_renderResolution.Width, m_renderResolution.Height);
+//			RecreateSynchronizedTexture();
+		}
+	}
 }
 
 void Direct3DBackground::Disconnect()
@@ -69,25 +94,22 @@ void Direct3DBackground::Disconnect()
 	m_renderer = nullptr;
 }
 
-HRESULT Direct3DBackground::PrepareResources(_In_ const LARGE_INTEGER* presentTargetTime, _Inout_ DrawingSurfaceSizeF* desiredRenderTargetSize)
+HRESULT Direct3DBackground::PrepareResources(_In_ const LARGE_INTEGER* presentTargetTime, _Out_ BOOL* contentDirty)
 {
-	m_timer->Update();
-	//m_renderer->Update(m_timer->Total, m_timer->Delta);
-
-	desiredRenderTargetSize->width = RenderResolution.Width;
-	desiredRenderTargetSize->height = RenderResolution.Height;
+	*contentDirty = true;
 
 	return S_OK;
 }
 
-HRESULT Direct3DBackground::Draw(_In_ ID3D11Device1* device, _In_ ID3D11DeviceContext1* context, _In_ ID3D11RenderTargetView* renderTargetView)
+HRESULT Direct3DBackground::GetTexture(_In_ const DrawingSurfaceSizeF* size, _Out_ IDrawingSurfaceSynchronizedTextureNative** synchronizedTexture, _Out_ DrawingSurfaceRectF* textureSubRectangle)
 {
-	//m_renderer->UpdateDevice(device, context, renderTargetView);
+	m_timer->Update();
+//	m_renderer->Update(m_timer->Total, m_timer->Delta);
+	cocos2d::CCDirector::sharedDirector()->mainLoop();
 	m_renderer->Render();
 
 	RequestAdditionalFrame();
 
 	return S_OK;
 }
-
 }

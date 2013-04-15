@@ -49,21 +49,23 @@ public ref class DirectXRender sealed
 public:
 	DirectXRender();
 
-	void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
+	//void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
+	void Initialize();
 	void CreateDeviceIndependentResources();
 	void CreateDeviceResources();
 	void SetDpi(float dpi);
-	void UpdateForWindowSizeChange();
+	void UpdateForWindowSizeChange(float width, float height);
+	void DirectXRender::UpdateForRenderResolutionChange(float width, float height);
 	void CreateWindowSizeDependentResources();
 	void Render();
 	void Present();
 	void SetBackBufferRenderTarget();
-	void CloseWindow();
+	//void CloseWindow();
 	bool GetWindowsClosedState();
 	static DirectXRender^ SharedDXRender();
 
 private:
-	Platform::Agile<Windows::UI::Core::CoreWindow>                  m_window;
+	//Platform::Agile<Windows::UI::Core::CoreWindow>                  m_window;
 
 private:
 	bool SetRasterState();
@@ -71,34 +73,20 @@ private:
 private:
 	friend class cocos2d::CCEGLView;
 	friend class cocos2d::CCImage;
-
-
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-	FTTextPainter^									m_textPainter;
-#else
-	DXTextPainter^									m_textPainter;
-	//// Declare Direct2D Objects
-	Microsoft::WRL::ComPtr<ID2D1Factory1>           m_d2dFactory;
-	Microsoft::WRL::ComPtr<ID2D1Device>             m_d2dDevice;
-	Microsoft::WRL::ComPtr<ID2D1DeviceContext>      m_d2dContext;
-	Microsoft::WRL::ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
-
-	//// Declare DirectWrite & Windows Imaging Component Objects
-	Microsoft::WRL::ComPtr<IDWriteFactory1>         m_dwriteFactory;
-	Microsoft::WRL::ComPtr<IWICImagingFactory2>     m_wicFactory;
-#endif
-
+	FTTextPainter^								m_textPainter;
 	// Direct3D Objects
 	Microsoft::WRL::ComPtr<ID3D11Device1>           m_d3dDevice;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext1>    m_d3dContext;
-	Microsoft::WRL::ComPtr<IDXGISwapChain1>         m_swapChain;
+	Microsoft::WRL::ComPtr<ID3D11Texture2D>			m_renderTarget;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
-
+	
+	// Cached renderer properties.
 	D3D_FEATURE_LEVEL                               m_featureLevel;
 	Windows::Foundation::Size                       m_renderTargetSize;
 	Windows::Foundation::Rect                       m_windowBounds;
 	float                                           m_dpi;
+
 
 
 	bool m_windowClosed;
@@ -114,10 +102,10 @@ protected:
 		_In_ Windows::UI::Core::VisibilityChangedEventArgs^ args
 		);
 
-	void OnWindowSizeChanged(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
-		_In_ Windows::UI::Core::WindowSizeChangedEventArgs^ args
-		);
+	//void OnWindowSizeChanged(
+	//	_In_ Windows::UI::Core::CoreWindow^ sender,
+	//	_In_ Windows::UI::Core::WindowSizeChangedEventArgs^ args
+	//	);
 
 	void OnPointerPressed(
 		_In_ Windows::UI::Core::CoreWindow^ sender,

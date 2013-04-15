@@ -8,6 +8,7 @@ namespace PhoneDirect3DXamlAppComponent
 {
 
 public delegate void RequestAdditionalFrameHandler();
+public delegate void RecreateSynchronizedTextureHandler();
 
 [Windows::Foundation::Metadata::WebHostHidden]
 public ref class Direct3DBackground sealed : public Windows::Phone::Input::Interop::IDrawingSurfaceManipulationHandler
@@ -15,16 +16,21 @@ public ref class Direct3DBackground sealed : public Windows::Phone::Input::Inter
 public:
 	Direct3DBackground();
 
-	Windows::Phone::Graphics::Interop::IDrawingSurfaceBackgroundContentProvider^ CreateContentProvider();
+	Windows::Phone::Graphics::Interop::IDrawingSurfaceContentProvider^ CreateContentProvider();
 
 	// IDrawingSurfaceManipulationHandler
 	virtual void SetManipulationHost(Windows::Phone::Input::Interop::DrawingSurfaceManipulationHost^ manipulationHost);
 
 	event RequestAdditionalFrameHandler^ RequestAdditionalFrame;
+	event RecreateSynchronizedTextureHandler^ RecreateSynchronizedTexture;
 
 	property Windows::Foundation::Size WindowBounds;
 	property Windows::Foundation::Size NativeResolution;
-	property Windows::Foundation::Size RenderResolution;
+	property Windows::Foundation::Size RenderResolution
+	{
+		Windows::Foundation::Size get(){ return m_renderResolution; }
+		void set(Windows::Foundation::Size renderResolution);
+	}
 
 protected:
 	// 事件处理程序
@@ -33,15 +39,15 @@ protected:
 	void OnPointerMoved(Windows::Phone::Input::Interop::DrawingSurfaceManipulationHost^ sender, Windows::UI::Core::PointerEventArgs^ args);
 
 internal:
-	HRESULT Connect(_In_ IDrawingSurfaceRuntimeHostNative* host, _In_ ID3D11Device1* device);
-	void Disconnect();
-
-	HRESULT PrepareResources(_In_ const LARGE_INTEGER* presentTargetTime, _Inout_ DrawingSurfaceSizeF* desiredRenderTargetSize);
-	HRESULT Draw(_In_ ID3D11Device1* device, _In_ ID3D11DeviceContext1* context, _In_ ID3D11RenderTargetView* renderTargetView);
+	HRESULT STDMETHODCALLTYPE Connect(_In_ IDrawingSurfaceRuntimeHostNative* host);
+	void STDMETHODCALLTYPE Disconnect();
+	HRESULT STDMETHODCALLTYPE PrepareResources(_In_ const LARGE_INTEGER* presentTargetTime, _Out_ BOOL* contentDirty);
+	HRESULT STDMETHODCALLTYPE GetTexture(_In_ const DrawingSurfaceSizeF* size, _Out_ IDrawingSurfaceSynchronizedTextureNative** synchronizedTexture, _Out_ DrawingSurfaceRectF* textureSubRectangle);
 
 private:
 	cocos2d::DirectXRender^ m_renderer;
 	BasicTimer^ m_timer;
+	Windows::Foundation::Size m_renderResolution;
 };
 
 }
