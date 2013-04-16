@@ -10,13 +10,13 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
-using PhoneDirect3DXamlAppComponent;
+using cocos2d;
 
 namespace PhoneDirect3DXamlAppInterop
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private Direct3DBackground m_d3dBackground = new Direct3DBackground();
+        private Cocos2dComponent m_d3dBackground = new Cocos2dComponent();
 
         // 构造函数
         public MainPage()
@@ -24,7 +24,7 @@ namespace PhoneDirect3DXamlAppInterop
             InitializeComponent();
         }
 
-        private void DrawingSurface_Loaded(object sender, RoutedEventArgs e)
+        private void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
         {
             // Set window bounds in dips
             m_d3dBackground.WindowBounds = new Windows.Foundation.Size(
@@ -40,10 +40,11 @@ namespace PhoneDirect3DXamlAppInterop
 
             // Set render resolution to the full native resolution
             m_d3dBackground.RenderResolution = m_d3dBackground.NativeResolution;
+            
 
             // Hook-up native component to DrawingSurfaceBackgroundGrid
-            DrawingSurface.SetContentProvider(m_d3dBackground.CreateContentProvider());
-            DrawingSurface.SetManipulationHandler(m_d3dBackground);
+            DrawingSurfaceBackground.SetBackgroundContentProvider(m_d3dBackground.CreateContentProvider());
+            DrawingSurfaceBackground.SetBackgroundManipulationHandler(m_d3dBackground);
         }
     }
 }

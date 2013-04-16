@@ -151,7 +151,7 @@ void CCFrameworkView::SetWindow(
     DisplayProperties::LogicalDpiChanged +=
         ref new DisplayPropertiesEventHandler(this, &CCFrameworkView::OnLogicalDpiChanged);
 
-    //m_renderer->Initialize(window, DisplayProperties::LogicalDpi);
+    m_renderer->Initialize(window, DisplayProperties::LogicalDpi);
     CCApplication::sharedApplication()->initInstance();
     CCLog("CCFrameworkView::-SetWindow()");
 }

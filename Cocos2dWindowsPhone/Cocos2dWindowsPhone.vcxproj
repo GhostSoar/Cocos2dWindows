@@ -412,6 +412,8 @@
       <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
     </ClCompile>
     <ClCompile Include="particle_nodes\CCParticleBatchNode.cpp" />
+    <ClCompile Include="platform\win8_metro\Cocos2dComponent.cpp" />
+    <ClCompile Include="platform\win8_metro\Direct3DContentProvider.cpp" />
     <ClCompile Include="touch_dispatcher\CCTouch.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +535,8 @@
     <ClInclude Include="include\kazmath\vec2.h" />
     <ClInclude Include="include\kazmath\vec3.h" />
     <ClInclude Include="include\kazmath\vec4.h" />
+    <ClInclude Include="platform\win8_metro\Cocos2dComponent.h" />
+    <ClInclude Include="platform\win8_metro\Direct3DContentProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include=".\shaders\CCDrawingPixelShader.hlsl">

@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="HelloXAMLComponent.cpp" />
-    <ClCompile Include="Direct3DContentProvider.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Classes\AppDelegate.cpp">
       <Filter>Classes</Filter>
@@ -12,8 +10,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HelloXAMLComponent.h" />
-    <ClInclude Include="Direct3DContentProvider.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Classes\AppDelegate.h">
       <Filter>Classes</Filter>

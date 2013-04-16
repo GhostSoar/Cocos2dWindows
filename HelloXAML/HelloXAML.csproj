@@ -148,6 +148,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cocos2dWindowsPhone\Cocos2dWindowsPhone.vcxproj">
+      <Project>{8C939C76-A430-450E-9607-56CEC95DEE2F}</Project>
+      <Name>Cocos2dWindowsPhone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelloXAMLComponent\HelloXAMLComponent.vcxproj">
       <Name>HelloXAMLComponent</Name>
     </ProjectReference>

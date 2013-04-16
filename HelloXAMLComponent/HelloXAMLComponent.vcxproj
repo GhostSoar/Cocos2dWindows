@@ -142,15 +142,11 @@
   <ItemGroup>
     <ClInclude Include="Classes\AppDelegate.h" />
     <ClInclude Include="Classes\HelloWorldScene.h" />
-    <ClInclude Include="HelloXAMLComponent.h" />
-    <ClInclude Include="Direct3DContentProvider.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Classes\AppDelegate.cpp" />
     <ClCompile Include="Classes\HelloWorldScene.cpp" />
-    <ClCompile Include="HelloXAMLComponent.cpp" />
-    <ClCompile Include="Direct3DContentProvider.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
