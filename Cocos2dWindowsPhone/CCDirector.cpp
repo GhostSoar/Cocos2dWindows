@@ -1104,7 +1104,7 @@ void CCDisplayLinkDirector::mainLoop(void)
 	}
 	else if (! m_bInvalid)
  	{
-		m_pobOpenGLView->SetBackBufferRenderTarget();
+//		m_pobOpenGLView->SetBackBufferRenderTarget();
  		drawScene();
 	 
  		// release the objects

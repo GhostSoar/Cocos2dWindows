@@ -106,42 +106,5 @@ private:
 
 
 	bool m_windowClosed;
-
-protected:
-	void OnWindowClosed(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
-		_In_ Windows::UI::Core::CoreWindowEventArgs^ args
-		);
-
-	void OnWindowVisibilityChanged(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
-		_In_ Windows::UI::Core::VisibilityChangedEventArgs^ args
-		);
-
-	void OnWindowSizeChanged(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
-		_In_ Windows::UI::Core::WindowSizeChangedEventArgs^ args
-		);
-
-	void OnPointerPressed(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
-		_In_ Windows::UI::Core::PointerEventArgs^ args
-		);
-
-	void OnPointerReleased(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
-		_In_ Windows::UI::Core::PointerEventArgs^ args
-		);
-
-	void OnPointerMoved(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
-		_In_ Windows::UI::Core::PointerEventArgs^ args
-		);
-
-	void OnCharacterReceived(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
-		_In_ Windows::UI::Core::CharacterReceivedEventArgs^ args
-		);
-
 };
 NS_CC_END;

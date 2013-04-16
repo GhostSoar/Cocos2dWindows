@@ -11,6 +11,16 @@ using namespace Windows::Phone::Input::Interop;
 namespace cocos2d
 {
 
+static CCPoint getCCPointFromScreen(Point point)
+{
+	CCSize viewSize = cocos2d::CCEGLView::sharedOpenGLView()->getSize();
+
+	CCPoint ccPoint;
+	ccPoint.x = ceilf(point.X);
+	ccPoint.y = ceilf(point.Y);
+
+	return ccPoint;
+}
 
 Cocos2dComponent::Cocos2dComponent() :
 	m_timer(ref new BasicTimer())
@@ -34,23 +44,32 @@ void Cocos2dComponent::SetManipulationHost(DrawingSurfaceManipulationHost^ manip
 
 	manipulationHost->PointerReleased +=
 		ref new TypedEventHandler<DrawingSurfaceManipulationHost^, PointerEventArgs^>(this, &Cocos2dComponent::OnPointerReleased);
+
 }
 
 // 事件处理程序
 void Cocos2dComponent::OnPointerPressed(DrawingSurfaceManipulationHost^ sender, PointerEventArgs^ args)
 {
-	// 在此处插入代码。
+	CCPoint point = getCCPointFromScreen(args->CurrentPoint->Position);
+	cocos2d::CCEGLView::sharedOpenGLView()->OnPointerPressed(args->CurrentPoint->PointerId, point);
 }
 
 void Cocos2dComponent::OnPointerMoved(DrawingSurfaceManipulationHost^ sender, PointerEventArgs^ args)
 {
-	// 在此处插入代码。
+	CCPoint point = getCCPointFromScreen(args->CurrentPoint->Position);
+	cocos2d::CCEGLView::sharedOpenGLView()->OnPointerMoved(args->CurrentPoint->PointerId, point);	
 }
 
 void Cocos2dComponent::OnPointerReleased(DrawingSurfaceManipulationHost^ sender, PointerEventArgs^ args)
 {
-	// 在此处插入代码。
+	CCPoint point = getCCPointFromScreen(args->CurrentPoint->Position);
+	cocos2d::CCEGLView::sharedOpenGLView()->OnPointerReleased(args->CurrentPoint->PointerId, point);
 }
+
+//void Cocos2dComponent::OnCharacterReceived(DrawingSurfaceManipulationHost^ sender, PointerEventArgs^ args)
+//{
+//	//cocos2d::CCEGLView::sharedOpenGLView()->OnCharacterReceived(args->KeyCode);
+//}
 
 // 与 Direct3DContentProvider 交互
 HRESULT Cocos2dComponent::Connect(_In_ IDrawingSurfaceRuntimeHostNative* host, _In_ ID3D11Device1* device)
@@ -72,6 +91,8 @@ void Cocos2dComponent::Disconnect()
 	m_renderer = nullptr;
 }
 
+static bool bLoop = false;
+
 HRESULT Cocos2dComponent::PrepareResources(_In_ const LARGE_INTEGER* presentTargetTime, _Inout_ DrawingSurfaceSizeF* desiredRenderTargetSize)
 {
 	m_timer->Update();
@@ -84,7 +105,7 @@ HRESULT Cocos2dComponent::PrepareResources(_In_ const LARGE_INTEGER* presentTarg
 	return S_OK;
 }
 
-static bool bLoop = false;
+
 
 HRESULT Cocos2dComponent::Draw(_In_ ID3D11Device1* device, _In_ ID3D11DeviceContext1* context, _In_ ID3D11RenderTargetView* renderTargetView)
 {
@@ -94,11 +115,11 @@ HRESULT Cocos2dComponent::Draw(_In_ ID3D11Device1* device, _In_ ID3D11DeviceCont
 	if(!bLoop)
 	{
 		bLoop = true;
-		CCApplication::sharedApplication()->initInstance();
 		CCApplication::sharedApplication()->applicationDidFinishLaunching();
+		CCDirector::sharedDirector()->mainLoop();
 	}
 
-	CCDirector::sharedDirector()->mainLoop();
+
 
 
 	RequestAdditionalFrame();

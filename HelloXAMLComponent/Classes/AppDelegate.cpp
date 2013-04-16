@@ -52,16 +52,6 @@ AppDelegate::~AppDelegate()
 //    SimpleAudioEngine::end();
 }
 
-bool AppDelegate::initInstance()
-{
-    bool bRet = false;
-    do 
-    {
-        bRet = true;
-    } while (0);
-    return bRet;
-}
-
 bool AppDelegate::applicationDidFinishLaunching()
 {
 	// initialize director

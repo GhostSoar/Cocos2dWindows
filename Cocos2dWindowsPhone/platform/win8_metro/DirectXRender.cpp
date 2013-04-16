@@ -43,16 +43,7 @@ using namespace D2D1;
 
 USING_NS_CC;
 
-static CCPoint getCCPointFromScreen(Point point)
-{
-	CCSize viewSize = cocos2d::CCEGLView::sharedOpenGLView()->getSize();
 
-	CCPoint ccPoint;
-	ccPoint.x = ceilf(point.X);
-	ccPoint.y = ceilf(point.Y);
-
-	return ccPoint;
-}
 
 static DirectXRender^ s_pDXRender;
 
@@ -70,34 +61,6 @@ void DirectXRender::Initialize(_In_ ID3D11Device1* device)
 	//m_window = window;
 	//m_windowClosed = false;
 	m_textPainter = ref new TextPainter();
-
-	//window->Closed += 
-	//	ref new TypedEventHandler<CoreWindow^, CoreWindowEventArgs^>(this, &DirectXRender::OnWindowClosed);
-
-	//window->VisibilityChanged +=
-	//	ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &DirectXRender::OnWindowVisibilityChanged);
-
-	//window->SizeChanged += 
-	//	ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(this, &DirectXRender::OnWindowSizeChanged);
-
-	//window->PointerPressed += 
-	//	ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &DirectXRender::OnPointerPressed);
-
-	//window->PointerReleased +=
-	//	ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &DirectXRender::OnPointerReleased);
-
-	//window->PointerMoved +=
-	//	ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &DirectXRender::OnPointerMoved);
-
-	//window->CharacterReceived += 
-	//	ref new TypedEventHandler<CoreWindow^, CharacterReceivedEventArgs^>(this, &DirectXRender::OnCharacterReceived);
-	 
-	//CreateDeviceIndependentResources();
-	//CreateDeviceResources();
-	//SetDpi(dpi);
-	//SetRasterState();
-	//Render();
-	//Present();
 
 	m_d3dDevice = device;
 	CreateDeviceResources(); 
@@ -375,76 +338,4 @@ bool DirectXRender::SetRasterState()
 		rasterState = 0;
 	}
 	return TRUE;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Event callback functions
-////////////////////////////////////////////////////////////////////////////////
-
-void DirectXRender::OnWindowClosed(
-	_In_ CoreWindow^ sender,
-	_In_ CoreWindowEventArgs^ args
-	)
-{
-	m_window = nullptr;
-	m_windowClosed = true;
-}
-
-void DirectXRender::OnWindowVisibilityChanged(
-	_In_ Windows::UI::Core::CoreWindow^ sender,
-	_In_ Windows::UI::Core::VisibilityChangedEventArgs^ args
-	)
-{
-	if (args->Visible)
-	{
-		CCApplication::sharedApplication()->applicationWillEnterForeground();
-	} 
-	else
-	{
-		CCApplication::sharedApplication()->applicationDidEnterBackground();
-	}
-}
-
-void DirectXRender::OnWindowSizeChanged(
-	_In_ CoreWindow^ sender,
-	_In_ WindowSizeChangedEventArgs^ args
-	)
-{
-	//UpdateForWindowSizeChange();
-	cocos2d::CCEGLView::sharedOpenGLView()->OnWindowSizeChanged();
-}
-
-void DirectXRender::OnPointerPressed(
-	_In_ Windows::UI::Core::CoreWindow^ sender,
-	_In_ Windows::UI::Core::PointerEventArgs^ args
-	)
-{
-	CCPoint point = getCCPointFromScreen(args->CurrentPoint->Position);
-	cocos2d::CCEGLView::sharedOpenGLView()->OnPointerPressed(args->CurrentPoint->PointerId, point);
-}
-
-void DirectXRender::OnPointerReleased(
-	_In_ Windows::UI::Core::CoreWindow^ sender,
-	_In_ Windows::UI::Core::PointerEventArgs^ args
-	)
-{
-	CCPoint point = getCCPointFromScreen(args->CurrentPoint->Position);
-	cocos2d::CCEGLView::sharedOpenGLView()->OnPointerReleased(args->CurrentPoint->PointerId, point);
-}
-
-void DirectXRender::OnPointerMoved(
-	_In_ Windows::UI::Core::CoreWindow^ sender,
-	_In_ Windows::UI::Core::PointerEventArgs^ args
-	)
-{
-	CCPoint point = getCCPointFromScreen(args->CurrentPoint->Position);
-	cocos2d::CCEGLView::sharedOpenGLView()->OnPointerMoved(args->CurrentPoint->PointerId, point);
-}
-
-void DirectXRender::OnCharacterReceived(
-	_In_ Windows::UI::Core::CoreWindow^ sender,
-	_In_ Windows::UI::Core::CharacterReceivedEventArgs^ args
-	)
-{
-	cocos2d::CCEGLView::sharedOpenGLView()->OnCharacterReceived(args->KeyCode);
 }

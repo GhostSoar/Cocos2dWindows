@@ -854,6 +854,9 @@
     <ClInclude Include="platform\win8_metro\Direct3DContentProvider.h">
       <Filter>platform\win8_metro</Filter>
     </ClInclude>
+    <ClInclude Include="include\DirectXRender.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include=".\shaders\CCDrawingPixelShader.hlsl">

@@ -521,6 +521,7 @@
     <ClInclude Include="include\CCFileUtils.h" />
     <ClInclude Include="include\CCMenu.h" />
     <ClInclude Include="include\ccTypeInfo.h" />
+    <ClInclude Include="include\DirectXRender.h" />
     <ClInclude Include="include\kazmath\aabb.h" />
     <ClInclude Include="include\kazmath\GL\mat4stack.h" />
     <ClInclude Include="include\kazmath\GL\matrix.h" />
