@@ -21,6 +21,16 @@
 
 #include "CCApplication.h"
 
+namespace PhoneDirect3DXamlAppComponent
+{
+public ref class Direct3DApplicationSource sealed
+{
+public:
+	Direct3DApplicationSource();
+    void Init();
+};
+}
+
 /**
 @brief	The cocos2d Application.
 

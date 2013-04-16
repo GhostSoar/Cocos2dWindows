@@ -26,6 +26,8 @@
 #include <memory>
 #include <vector>
 
+
+
 class HelloWorld : public cocos2d::CCLayerColor
 {
 public:

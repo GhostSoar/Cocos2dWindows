@@ -83,8 +83,8 @@ bool CCEGLView::Create()
 	do 
 	{
         DirectXRender^ render = DirectXRender::SharedDXRender();
-        m_initWinWidth = (int)render->m_window->Bounds.Width;
-        m_initWinHeight = (int)render->m_window->Bounds.Height;
+        m_initWinWidth = (int)render->m_windowBounds.Width;
+        m_initWinHeight = (int)render->m_windowBounds.Height;
 	    setDesignResolution(m_initWinWidth, m_initWinHeight);
 		setDesignResolution(render->m_windowBounds.Width, render->m_windowBounds.Height);
         SetBackBufferRenderTarget();
@@ -256,8 +256,8 @@ void CCEGLView::setIMEKeyboardState(bool /*bOpen*/)
 void CCEGLView::getScreenRectInView(CCRect& rect)
 {
 	DirectXRender^ render = DirectXRender::SharedDXRender();
-    float winWidth = render->m_window->Bounds.Width;
-    float winHeight = render->m_window->Bounds.Height;
+    float winWidth = render->m_windowBounds.Width;
+    float winHeight = render->m_windowBounds.Height;
     
     rect.origin.x = float(- m_rcViewPort.left) / m_fScreenScaleFactor;
 	rect.origin.y = float((m_rcViewPort.bottom - m_rcViewPort.top) - winHeight) / (2.0f * m_fScreenScaleFactor);
@@ -289,8 +289,8 @@ void CCEGLView::setDesignResolution(int dx, int dy)
     m_sizeInPoints.height = (float)dy;
     
     DirectXRender^ render = DirectXRender::SharedDXRender();
-    float winWidth = render->m_window->Bounds.Width;
-    float winHeight = render->m_window->Bounds.Height;
+    float winWidth = render->m_windowBounds.Width;
+    float winHeight = render->m_windowBounds.Height;
 
     m_fScreenScaleFactor = min(winWidth / dx, winHeight / dy);
     m_fScreenScaleFactor *= CCDirector::sharedDirector()->getContentScaleFactor();
@@ -719,8 +719,8 @@ void CCEGLView::OnWindowSizeChanged()
 
     // 重新确定 viewPort
     DirectXRender^ render = DirectXRender::SharedDXRender();
-    float winWidth = render->m_window->Bounds.Width;
-    float winHeight = render->m_window->Bounds.Height;
+    float winWidth = render->m_windowBounds.Width;
+    float winHeight = render->m_windowBounds.Height;
 
     m_fWinScaleX = (float)winWidth / m_initWinWidth;
     m_fWinScaleY = (float)winHeight / m_initWinHeight;

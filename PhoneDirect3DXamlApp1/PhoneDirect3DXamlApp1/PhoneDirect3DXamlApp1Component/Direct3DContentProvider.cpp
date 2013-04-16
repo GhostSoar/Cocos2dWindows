@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "Direct3DContentProvider.h"
-#include "cocos2d.h"
 
-using namespace cocos2d;
+using namespace PhoneDirect3DXamlAppComponent;
 
-
-Direct3DContentProvider::Direct3DContentProvider(Cocos2dComponent^ controller) :
+Direct3DContentProvider::Direct3DContentProvider(Direct3DBackground^ controller) :
 	m_controller(controller)
 {
 	m_controller->RequestAdditionalFrame += ref new RequestAdditionalFrameHandler([=] ()
@@ -21,6 +19,7 @@ Direct3DContentProvider::Direct3DContentProvider(Cocos2dComponent^ controller) :
 HRESULT Direct3DContentProvider::Connect(_In_ IDrawingSurfaceRuntimeHostNative* host, _In_ ID3D11Device1* device)
 {
 	m_host = host;
+
 	return m_controller->Connect(host, device);
 }
 

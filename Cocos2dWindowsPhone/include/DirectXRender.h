@@ -49,11 +49,11 @@ public ref class DirectXRender sealed
 public:
 	DirectXRender();
 
-	void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
+
 	void CreateDeviceIndependentResources();
 	void CreateDeviceResources();
 	void SetDpi(float dpi);
-	void UpdateForWindowSizeChange();
+	void UpdateForWindowSizeChange(float width, float height);
 	void CreateWindowSizeDependentResources();
 	void Render();
 	void Present();
@@ -62,6 +62,9 @@ public:
 	bool GetWindowsClosedState();
 	static DirectXRender^ SharedDXRender();
 
+internal:
+	void Initialize(_In_ ID3D11Device1* device);
+	void UpdateDevice(_In_ ID3D11Device1* device, _In_ ID3D11DeviceContext1* context, _In_ ID3D11RenderTargetView* renderTargetView);
 private:
 	Platform::Agile<Windows::UI::Core::CoreWindow>                  m_window;
 
@@ -94,6 +97,7 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain1>         m_swapChain;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
+
 
 	D3D_FEATURE_LEVEL                               m_featureLevel;
 	Windows::Foundation::Size                       m_renderTargetSize;

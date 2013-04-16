@@ -27,6 +27,22 @@
 #include "CCEGLView.h"
 USING_NS_CC;
 
+namespace PhoneDirect3DXamlAppComponent
+{
+AppDelegate app;
+
+Direct3DApplicationSource::Direct3DApplicationSource()
+{
+
+}
+
+void Direct3DApplicationSource::Init()
+{
+
+}
+}
+
+
 AppDelegate::AppDelegate()
 {
 }

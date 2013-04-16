@@ -56,8 +56,9 @@ void Cocos2dComponent::OnPointerReleased(DrawingSurfaceManipulationHost^ sender,
 HRESULT Cocos2dComponent::Connect(_In_ IDrawingSurfaceRuntimeHostNative* host, _In_ ID3D11Device1* device)
 {
 	m_renderer = ref new cocos2d::DirectXRender();
-	//m_renderer->Initialize(Windows::Cur);
-	//m_renderer->UpdateForWindowSizeChange(WindowBounds.Width, WindowBounds.Height);
+	m_renderer->UpdateForWindowSizeChange(WindowBounds.Width, WindowBounds.Height);
+	m_renderer->Initialize(device);
+
 
 
 	// 在呈现器完成初始化后重新启动计时器。
@@ -83,10 +84,22 @@ HRESULT Cocos2dComponent::PrepareResources(_In_ const LARGE_INTEGER* presentTarg
 	return S_OK;
 }
 
+static bool bLoop = false;
+
 HRESULT Cocos2dComponent::Draw(_In_ ID3D11Device1* device, _In_ ID3D11DeviceContext1* context, _In_ ID3D11RenderTargetView* renderTargetView)
 {
-	//m_renderer->UpdateDevice(device, context, renderTargetView);
+	m_renderer->UpdateDevice(device, context, renderTargetView);
 	m_renderer->Render();
+
+	if(!bLoop)
+	{
+		bLoop = true;
+		CCApplication::sharedApplication()->initInstance();
+		CCApplication::sharedApplication()->applicationDidFinishLaunching();
+	}
+
+	CCDirector::sharedDirector()->mainLoop();
+
 
 	RequestAdditionalFrame();
 
